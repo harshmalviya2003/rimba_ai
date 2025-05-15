@@ -6,7 +6,6 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
-import { TweenTarget } from 'gsap';
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
