@@ -9,16 +9,30 @@ import { TextPlugin } from 'gsap/TextPlugin';
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
+interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  baseX: number;
+  baseY: number;
+  density: number;
+  color: string;
+  velocity: number;
+  angle: number;
+  draw: () => void;
+  update: () => void;
+}
+
 export function Hero() {
-  const heroRef = useRef(null);
-  const headingRef = useRef(null);
-  const subheadingRef = useRef(null);
-  const textRef = useRef(null);
-  const buttonRef = useRef(null);
-  const imageRef = useRef(null);
-  const canvasRef = useRef(null);
-  const particlesRef = useRef([]);
-  const aiChipRef = useRef(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subheadingRef = useRef<HTMLHeadingElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<Particle[]>([]);
+  const aiChipRef = useRef<HTMLDivElement>(null);
 
   // AI-related keywords for typing animation
   const aiKeywords = [
@@ -48,7 +62,7 @@ export function Hero() {
 
     // Typing animation for AI keywords (faster)
     masterTL.to(subheadingRef.current, {
-      duration: 1, // Reduced from 2
+      duration: 1,
       text: { value: aiKeywords[0], delimiter: "" },
       ease: "none"
     });
@@ -58,55 +72,53 @@ export function Hero() {
     const keywordInterval = setInterval(() => {
       keywordIndex = (keywordIndex + 1) % aiKeywords.length;
       gsap.to(subheadingRef.current, {
-        duration: 1, // Reduced from 1.5
+        duration: 1,
         text: { value: aiKeywords[keywordIndex], delimiter: "" },
         ease: "power1.inOut"
       });
-    }, 4000); // Increased interval to reduce visual noise
+    }, 4000);
 
     // Floating AI elements animation (subtle)
-   // Floating AI elements animation (subtle)
-const floatingElements = gsap.utils.toArray<HTMLElement>('.floating-element');
-floatingElements.forEach((el, i) => {
-  const duration = 6 + Math.random() * 4; // Slightly faster
-  const movement = 20 + Math.random() * 20; // Reduced movement
-  gsap.to(el, {
-    y: movement,
-    duration: duration,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut",
-    delay: Math.random() * 1
-  });
-});
+    const floatingElements = gsap.utils.toArray<HTMLElement>('.floating-element');
+    floatingElements.forEach((el, i) => {
+      const duration = 6 + Math.random() * 4;
+      const movement = 20 + Math.random() * 20;
+      gsap.to(el, {
+        y: movement,
+        duration: duration,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: Math.random() * 1
+      });
+    });
 
     // Main content animations (faster and less offset)
     masterTL.fromTo(
       headingRef.current,
-      { y: 20, opacity: 0 }, // Reduced y from 80, removed skewY
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }, // Reduced from 1.2
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
       "+=0.1"
     );
 
     masterTL.fromTo(
       textRef.current,
-      { y: 20, opacity: 0 }, // Reduced y from 50
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, // Reduced from 1
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
       "-=0.4"
     );
 
     masterTL.fromTo(
       buttonRef.current,
-      { scale: 0.9, opacity: 0 }, // Reduced scale from 0.8
+      { scale: 0.9, opacity: 0 },
       {
         scale: 1,
         opacity: 1,
-        duration: 0.5, // Reduced from 0.8
-        ease: 'back.out(1.4)', // Slightly less bouncy
+        duration: 0.5,
+        ease: 'back.out(1.4)',
         onStart: () => {
-          // Subtle pulsing effect
           gsap.to(buttonRef.current, {
-            scale: 1.03, // Reduced pulse intensity
+            scale: 1.03,
             duration: 2,
             repeat: -1,
             yoyo: true,
@@ -120,11 +132,11 @@ floatingElements.forEach((el, i) => {
     // AI chip animation (faster)
     masterTL.fromTo(
       aiChipRef.current,
-      { scale: 0.9, opacity: 0 }, // Removed rotation
+      { scale: 0.9, opacity: 0 },
       {
         scale: 1,
         opacity: 1,
-        duration: 0.5, // Reduced from 1
+        duration: 0.5,
         ease: 'power2.out'
       },
       "-=0.3"
@@ -133,17 +145,16 @@ floatingElements.forEach((el, i) => {
     // Image animation (subtle)
     masterTL.fromTo(
       imageRef.current,
-      { y: 20, opacity: 0 }, // Reduced y from 60, removed rotation
+      { y: 20, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 0.7, // Reduced from 1.5
+        duration: 0.7,
         ease: 'power2.out',
         onComplete: () => {
-          // Subtle floating animation
           gsap.to(imageRef.current, {
-            y: 10, // Reduced from 20
-            duration: 3, // Faster
+            y: 10,
+            duration: 3,
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut"
@@ -156,21 +167,45 @@ floatingElements.forEach((el, i) => {
     // Particle Network Animation (delayed to prioritize content)
     const initParticleNetwork = () => {
       const canvas = canvasRef.current;
+      if (!canvas) {
+        console.warn('Canvas element is not available');
+        return;
+      }
       const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        console.warn('Failed to get 2D context for canvas');
+        return;
+      }
 
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
       class Particle {
+        x: number;
+        y: number;
+        size: number;
+        baseX: number;
+        baseY: number;
+        density: number;
+        color: string;
+        velocity: number;
+        angle: number;
+
         constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 1.5 + 0.5; // Smaller particles
+          if (!canvas) {
+            console.warn('Canvas is not available in Particle constructor');
+            this.x = 0;
+            this.y = 0;
+          } else {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+          }
+          this.size = Math.random() * 1.5 + 0.5;
           this.baseX = this.x;
           this.baseY = this.y;
-          this.density = (Math.random() * 20) + 1; // Lighter density
-          this.color = `hsl(${Math.random() * 60 + 180}, 60%, 60%)`; // Softer color
-          this.velocity = Math.random() * 0.1 - 0.05; // Slower movement
+          this.density = Math.random() * 20 + 1;
+          this.color = `hsl(${Math.random() * 60 + 180}, 60%, 60%)`;
+          this.velocity = Math.random() * 0.1 - 0.05;
           this.angle = 0;
         }
 
@@ -184,7 +219,7 @@ floatingElements.forEach((el, i) => {
 
         update() {
           this.angle += this.velocity;
-          this.x = this.baseX + Math.cos(this.angle) * 8; // Reduced movement
+          this.x = this.baseX + Math.cos(this.angle) * 8;
           this.y = this.baseY + Math.sin(this.angle) * 8;
 
           for (let i = 0; i < particlesRef.current.length; i++) {
@@ -192,10 +227,10 @@ floatingElements.forEach((el, i) => {
             const dy = this.y - particlesRef.current[i].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 80) { // Reduced connection distance
+            if (distance < 80) {
               ctx.beginPath();
-              ctx.strokeStyle = `rgba(20, 117, 111, ${1 - distance/80})`;
-              ctx.lineWidth = 0.3; // Thinner lines
+              ctx.strokeStyle = `rgba(20, 117, 111, ${1 - distance / 80})`;
+              ctx.lineWidth = 0.3;
               ctx.moveTo(this.x, this.y);
               ctx.lineTo(particlesRef.current[i].x, particlesRef.current[i].y);
               ctx.stroke();
@@ -208,13 +243,14 @@ floatingElements.forEach((el, i) => {
       }
 
       particlesRef.current = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 12000); // Fewer particles
+      const particleCount = Math.floor((canvas.width * canvas.height) / 12000);
 
       for (let i = 0; i < particleCount; i++) {
         particlesRef.current.push(new Particle());
       }
 
       function animate() {
+        if (!canvas || !ctx) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < particlesRef.current.length; i++) {
           particlesRef.current[i].update();
@@ -222,10 +258,9 @@ floatingElements.forEach((el, i) => {
         requestAnimationFrame(animate);
       }
 
-      // Delay particle animation slightly
       setTimeout(animate, 300);
 
-      const onMouseMove = (e) => {
+      const onMouseMove = (e: MouseEvent) => {
         const mouseX = e.clientX;
         const mouseY = e.clientY;
 
@@ -234,9 +269,9 @@ floatingElements.forEach((el, i) => {
           const dy = mouseY - particlesRef.current[i].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 100) { // Reduced interaction range
-            particlesRef.current[i].baseX = particlesRef.current[i].x - (dx * 0.03);
-            particlesRef.current[i].baseY = particlesRef.current[i].y - (dy * 0.03);
+          if (distance < 100) {
+            particlesRef.current[i].baseX = particlesRef.current[i].x - dx * 0.03;
+            particlesRef.current[i].baseY = particlesRef.current[i].y - dy * 0.03;
           }
         }
       };
@@ -244,6 +279,7 @@ floatingElements.forEach((el, i) => {
       window.addEventListener('mousemove', onMouseMove);
 
       const onResize = () => {
+        if (!canvas) return;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
       };
@@ -257,7 +293,6 @@ floatingElements.forEach((el, i) => {
       };
     };
 
-    // Delay particle network to ensure content loads first
     setTimeout(initParticleNetwork, 100);
 
     return () => {
@@ -268,41 +303,37 @@ floatingElements.forEach((el, i) => {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center py-20 px-4 overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50 opacity-0" // Initial opacity for fade-in
-      style={{ willChange: 'opacity' }} // Optimize rendering
+      className="relative min-h-screen flex items-center justify-center py-20 px-4 overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50 opacity-0"
+      style={{ willChange: 'opacity' }}
     >
-      {/* Interactive Particle Network Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 z-0 w-full h-full filter blur-[1px]" // Reduced blur
+        className="absolute inset-0 z-0 w-full h-full filter blur-[1px]"
         style={{ willChange: 'transform, opacity' }}
       />
 
-      {/* Floating AI Elements */}
       <div className="absolute inset-0 overflow-hidden z-10">
-        {[...Array(8)].map((_, i) => ( // Reduced number of elements
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="floating-element absolute opacity-15"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 80 + 40}px`, // Smaller elements
+              width: `${Math.random() * 80 + 40}px`,
               height: `${Math.random() * 80 + 40}px`,
               background: `radial-gradient(circle, rgba(20, 117, 111, 0.2) 0%, transparent 70%)`,
               borderRadius: '50%',
-              filter: 'blur(8px)', // Slightly less blur
+              filter: 'blur(8px)',
               willChange: 'transform'
             }}
           />
         ))}
       </div>
 
-      {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-cyan-50/20 z-20" />
 
       <div className="max-w-7xl mx-auto md:mt-10 flex flex-col md:flex-row items-center justify-between relative z-30 gap-12">
-        {/* Text Content */}
         <div className="text-center md:text-left md:max-w-2xl">
           <div className="mb-6">
             <div
@@ -359,7 +390,6 @@ floatingElements.forEach((el, i) => {
             </Button>
           </div>
 
-          {/* Trust indicators */}
           <div className="mt-10 flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-500">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
@@ -374,7 +404,6 @@ floatingElements.forEach((el, i) => {
           </div>
         </div>
 
-        {/* Animated Image with AI Elements */}
         <div ref={imageRef} className="relative mt-10 md:mt-0 md:max-w-xl" style={{ willChange: 'transform, opacity' }}>
           <div className="relative">
             <Image
