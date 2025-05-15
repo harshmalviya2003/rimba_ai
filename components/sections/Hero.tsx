@@ -6,6 +6,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
+import { TweenTarget } from 'gsap';
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
@@ -65,19 +66,20 @@ export function Hero() {
     }, 4000); // Increased interval to reduce visual noise
 
     // Floating AI elements animation (subtle)
-    const floatingElements = gsap.utils.toArray('.floating-element');
-    floatingElements.forEach((el, i) => {
-      const duration = 6 + Math.random() * 4; // Slightly faster
-      const movement = 20 + Math.random() * 20; // Reduced movement
-      gsap.to(el, {
-        y: movement,
-        duration: duration,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: Math.random() * 1
-      });
-    });
+   // Floating AI elements animation (subtle)
+const floatingElements = gsap.utils.toArray<HTMLElement>('.floating-element');
+floatingElements.forEach((el, i) => {
+  const duration = 6 + Math.random() * 4; // Slightly faster
+  const movement = 20 + Math.random() * 20; // Reduced movement
+  gsap.to(el, {
+    y: movement,
+    duration: duration,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut",
+    delay: Math.random() * 1
+  });
+});
 
     // Main content animations (faster and less offset)
     masterTL.fromTo(
