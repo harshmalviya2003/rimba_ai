@@ -181,7 +181,7 @@ export function FAQ() {
             type="single" 
             collapsible 
             className="space-y-4"
-            value={activeItem}
+            value={activeItem || undefined}
             onValueChange={setActiveItem}
           >
             {faqItems.map((item, index) => (
