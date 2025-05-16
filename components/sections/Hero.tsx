@@ -210,6 +210,7 @@ export function Hero() {
         }
 
         draw() {
+          if (!ctx) return;
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
           ctx.closePath();
@@ -218,6 +219,7 @@ export function Hero() {
         }
 
         update() {
+          if (!ctx) return;
           this.angle += this.velocity;
           this.x = this.baseX + Math.cos(this.angle) * 8;
           this.y = this.baseY + Math.sin(this.angle) * 8;
