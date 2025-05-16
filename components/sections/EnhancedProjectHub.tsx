@@ -372,7 +372,7 @@ const EnhancedProjectHub: React.FC = () => {
       )}
 
       {/* Final CTA Section */}
-      <section className="relative py-16 flex flex-col justify-center items-center text-center px-4 sm:px-6 bg-white z-10 overflow-hidden">
+      {/* <section className="relative py-16 flex flex-col justify-center items-center text-center px-4 sm:px-6 bg-white z-10 overflow-hidden">
         <div className="w-full max-w-4xl mx-auto">
           <div className="flex justify-center mb-6">
             <div className="p-4 bg-[#0F766E]/20 rounded-full border border-[#0F766E]/50">
@@ -400,7 +400,7 @@ const EnhancedProjectHub: React.FC = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

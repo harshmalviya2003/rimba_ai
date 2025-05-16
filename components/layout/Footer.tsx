@@ -63,14 +63,9 @@ const Footer: FC = () => {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           rel="stylesheet"
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700&display=swap"
-          rel="stylesheet"
-        />
         <style>
           {`
             body {
-              font-family: 'Inter', sans-serif;
               margin: 0;
             }
             html, body, #__next {
@@ -112,7 +107,7 @@ const Footer: FC = () => {
             variants={heroVariants}
           >
             <motion.h1
-              className="text-[#FFFFFF] text-4xl md:text-5xl font-bold uppercase text-center md:text-left font-['Orbitron']"
+              className="text-white text-3xl md:text-4xl font-bold text-center md:text-left"
               variants={heroVariants}
             >
               Empower Trust with AI Innovation
@@ -123,7 +118,7 @@ const Footer: FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <button
-                className="bg-gradient-to-r from-[#14756F] to-[#0f5c57] text-[#FFFFFF] font-semibold py-3 px-10 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 glow-on-hover pulse-glow"
+                className="bg-gradient-to-r from-[#14756F] to-[#0f5c57] text-white font-medium py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 glow-on-hover pulse-glow"
               >
                 Request a Demo
               </button>
@@ -139,7 +134,7 @@ const Footer: FC = () => {
           />
 
           {/* Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-[#FFFFFF]">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-white">
             {/* Company Links */}
             <motion.div
               className="flex flex-col space-y-4"
@@ -149,7 +144,7 @@ const Footer: FC = () => {
               custom="left"
             >
               <motion.h3
-                className="text-[#14756F] text-xl font-semibold font-['Orbitron']"
+                className="text-[#14756F] text-lg font-semibold"
                 variants={gridItemVariants}
               >
                 Company
@@ -162,7 +157,7 @@ const Footer: FC = () => {
                 <motion.a
                   key={item.name}
                   href={item.href}
-                  className="text-[#FFFFFF] hover:text-[#14756F] text-base relative group"
+                  className="text-white hover:text-[#14756F] text-sm relative group"
                   variants={gridItemVariants}
                 >
                   {item.name}
@@ -180,7 +175,7 @@ const Footer: FC = () => {
               custom="left"
             >
               <motion.h3
-                className="text-[#14756F] text-xl font-semibold font-['Orbitron']"
+                className="text-[#14756F] text-lg font-semibold"
                 variants={gridItemVariants}
               >
                 Legal
@@ -193,7 +188,7 @@ const Footer: FC = () => {
                 <motion.a
                   key={item.name}
                   href={item.href}
-                  className="text-[#FFFFFF] hover:text-[#14756F] text-base relative group"
+                  className="text-white hover:text-[#14756F] text-sm relative group"
                   variants={gridItemVariants}
                 >
                   {item.name}
@@ -211,7 +206,7 @@ const Footer: FC = () => {
               custom="right"
             >
               <motion.h3
-                className="text-[#14756F] text-xl font-semibold font-['Orbitron']"
+                className="text-[#14756F] text-lg font-semibold"
                 variants={gridItemVariants}
               >
                 Stay Updated
@@ -222,12 +217,12 @@ const Footer: FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="bg-[#1F2937]/50 text-[#FFFFFF] rounded-lg p-3 border border-[#4B5563]/50 focus:outline-none focus:border-[#14756F] transition-all duration-200 glow-on-hover"
+                  className="bg-[#1F2937]/50 text-white rounded-lg p-2 border border-[#4B5563]/50 focus:outline-none focus:border-[#14756F] transition-all duration-200 glow-on-hover"
                   variants={gridItemVariants}
                 />
                 <motion.button
                   type="submit"
-                  className="bg-[#14756F] text-[#FFFFFF] font-semibold py-2 rounded-lg hover:bg-[#0f5c57] transition-all duration-200 glow-on-hover pulse-glow"
+                  className="bg-[#14756F] text-white font-medium py-2 rounded-lg hover:bg-[#0f5c57] transition-all duration-200 glow-on-hover pulse-glow"
                   variants={gridItemVariants}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -246,7 +241,7 @@ const Footer: FC = () => {
               custom="right"
             >
               <motion.h3
-                className="text-[#14756F] text-xl font-semibold font-['Orbitron']"
+                className="text-[#14756F] text-lg font-semibold"
                 variants={gridItemVariants}
               >
                 Connect
@@ -261,7 +256,7 @@ const Footer: FC = () => {
                     key={item.platform}
                     href={item.href}
                     aria-label={item.platform}
-                    className="text-[#FFFFFF] hover:text-[#14756F] text-2xl pulse-glow"
+                    className="text-white hover:text-[#14756F] text-xl pulse-glow"
                     rel="noopener noreferrer"
                     target="_blank"
                     variants={socialVariants}
@@ -272,14 +267,14 @@ const Footer: FC = () => {
                 ))}
               </div>
               <motion.div
-                className="flex items-center space-x-3 text-sm"
+                className="flex items-center space-x-3 text-xs"
                 variants={gridItemVariants}
               >
                 <i className="fas fa-phone-alt text-[#14756F]"></i>
                 <span>510-543-1864</span>
               </motion.div>
               <motion.div
-                className="flex items-center space-x-2 text-sm"
+                className="flex items-center space-x-2 text-xs"
                 variants={gridItemVariants}
               >
                 <i className="fas fa-copyright text-[#14756F]"></i>
