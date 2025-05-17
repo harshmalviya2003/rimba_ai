@@ -210,17 +210,7 @@ const EnhancedProjectHub: React.FC = () => {
       title: "Single source of truth for every meter—matched to the pipeline",
       description: "Stop stitching siloed data feeds. Rimba ingests your site meters, and flags any mismatch for Ops or regulators to see it.",
       icon: <Database size={40} className="text-[#0F766E]" />,
-    },
-    {
-      title: "Turn CI scores into the highest $ / MMBTU, instantly",
-      description: "Rimba runs GREET TIER 1 or 2 models for you to always sell in the richest live intel market.",
-      icon: <Zap size={40} className="text-[#0F766E]" />,
-    },
-    {
-      title: "Continuous Air Permitting Monitoring",
-      description: "Build safety alerts to track H2S or NOX emissions.",
-      icon: <Gauge size={40} className="text-[#0F766E]" />,
-    },
+    }
   ];
 
   return (
@@ -231,7 +221,7 @@ const EnhancedProjectHub: React.FC = () => {
       {isMobile ? (
         // Mobile View (Vertical Grid Layout)
         <div className="relative z-10 box-border">
-          <section className="min-h-screen w-full py-16 px-4 sm:px-8">
+          {/* <section className="min-h-screen w-full py-16 px-4 sm:px-8">
             <div className="w-full max-w-7xl mx-auto">
               <div className="mb-20">
                 <div className="flex justify-center mb-12">
@@ -274,7 +264,7 @@ const EnhancedProjectHub: React.FC = () => {
                 </Link>
               </div>
             </div>
-          </section>
+          </section> */}
 
           {/* Final CTA Section */}
           <section className="relative py-16 flex flex-col justify-center items-center text-center px-4 sm:px-6 bg-white z-10 overflow-hidden">
@@ -309,9 +299,9 @@ const EnhancedProjectHub: React.FC = () => {
         </div>
       ) : (
         // Desktop View (Horizontal Scrolling)
-        <div ref={containerRef} className="relative h-screen w-[700%] flex z-10 box-border">
+        <div ref={containerRef} className="relative h-screen w-[400%] flex z-10 box-border">
           {/* Rimba Hub Panel */}
-          <section className="panel w-full h-full flex items-center justify-center p-4 sm:p-8">
+          {/* <section className="panel w-full h-full flex items-center justify-center p-4 sm:p-8">
             <div className="w-full max-w-4xl mx-auto text-center bg-gray-100/50 backdrop-blur-sm p-6 sm:p-12 rounded-2xl border border-[#0F766E]/20 shadow-2xl">
               <div className="flex justify-center mb-6">
                 <div className="p-4 bg-[#0F766E]/20 rounded-full border border-[#0F766E]/50">
@@ -345,7 +335,7 @@ const EnhancedProjectHub: React.FC = () => {
                 <Database className="text-2xl text-[#0F766E]" />
               </div>
             </div>
-          </section>
+          </section> */}
 
           {/* Project Panels */}
           {projects.map((project, index) => (
